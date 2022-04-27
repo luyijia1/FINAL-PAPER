@@ -1,1 +1,102 @@
+# APPENDIX
+1. @Manual{,
+    title = {R: A Language and Environment for Statistical Computing},
+    author = {{R Core Team}},
+    organization = {R Foundation for Statistical Computing},
+    address = {Vienna, Austria},
+    year = {2022},
+    url = {https://www.R-project.org/},
+  }
+
+2. @Book{,
+    title = {Applied Econometrics with {R}},
+    author = {Christian Kleiber and Achim Zeileis},
+    year = {2008},
+    publisher = {Springer-Verlag},
+    address = {New York},
+    note = {{ISBN} 978-0-387-77316-2},
+    url = {https://CRAN.R-project.org/package=AER},
+  }
+
+3. @Article{,
+    title = {Welcome to the {tidyverse}},
+    author = {Hadley Wickham and Mara Averick and Jennifer Bryan and Winston Chang and Lucy D'Agostino McGowan and Romain François and Garrett Grolemund and Alex Hayes and Lionel Henry and Jim Hester and Max Kuhn and Thomas Lin Pedersen and Evan Miller and Stephan Milton Bache and Kirill Müller and Jeroen Ooms and David Robinson and Dana Paige Seidel and Vitalie Spinu and Kohske Takahashi and Davis Vaughan and Claus Wilke and Kara Woo and Hiroaki Yutani},
+    year = {2019},
+    journal = {Journal of Open Source Software},
+    volume = {4},
+    number = {43},
+    pages = {1686},
+    doi = {10.21105/joss.01686},
+  }
+  
+4. @Manual{,
+    title = {wooldridge: 115 Data Sets from "Introductory Econometrics: A Modern
+Approach, 7e" by Jeffrey M. Wooldridge},
+    author = {Justin M. Shea},
+    year = {2021},
+    note = {R package version 1.4-2},
+    url = {https://justinmshea.github.io/wooldridge/},
+  }
+  
+5. @Manual{,
+    title = {kableExtra: Construct Complex Table with 'kable' and Pipe Syntax},
+    author = {Hao Zhu},
+    year = {2021},
+    note = {http://haozhu233.github.io/kableExtra/,
+https://github.com/haozhu233/kableExtra},
+  }
+  
+6. @Manual{,
+    title = {modelsummary: Summary Tables and Plots for Statistical Models and Data:
+Beautiful, Customizable, and Publication-Ready},
+    author = {Vincent Arel-Bundock},
+    year = {2022},
+    note = {R package version 0.10.0},
+    url = {https://vincentarelbundock.github.io/modelsummary/},
+  }
+
+7. @Manual{,
+    title = {knitr: A General-Purpose Package for Dynamic Report Generation in R},
+    author = {Yihui Xie},
+    year = {2022},
+    note = {R package version 1.38},
+    url = {https://yihui.org/knitr/},
+  }
+  
+8. @Book{,
+    title = {Dynamic Documents with {R} and knitr},
+    author = {Yihui Xie},
+    publisher = {Chapman and Hall/CRC},
+    address = {Boca Raton, Florida},
+    year = {2015},
+    edition = {2nd},
+    note = {ISBN 978-1498716963},
+    url = {https://yihui.org/knitr/},
+  }
+  
+9. @InCollection{,
+    booktitle = {Implementing Reproducible Computational Research},
+    editor = {Victoria Stodden and Friedrich Leisch and Roger D. Peng},
+    title = {knitr: A Comprehensive Tool for Reproducible Research in {R}},
+    author = {Yihui Xie},
+    publisher = {Chapman and Hall/CRC},
+    year = {2014},
+    note = {ISBN 978-1466561595},
+    url = {http://www.crcpress.com/product/isbn/9781466561595},
+  }
+
+10. Bardhan, P. K. (1980). Interlocking factor markets and agrarian development: A review of issues. Oxford Economic Papers, 32(1), 82-98. https://www.jstor.org/stable/2662618?casa_token=vJ8FD4x67fkAAAAA%3Av6q3n34DtU5sdFmvC1QPLdIFrxqOOE4xdql7_5VPpAv8cLO6w_dgx9YKjtISUaOBwz-3SwIrZTed2lGhL6ZsHbfJP_1LwkL-aNj_S2m3GIsZkUnieJ4&seq=1
+ 
+11. Doytchinova, I. A., & Flower, D. R. (2007). Identifying candidate subunit vaccines using an alignment-independent method based on principal amino acid properties. Vaccine, 25(5), 856-866.https://www.jstor.org/stable/24309642
+
+12. Ellram, L. M., Tate, W. L., & Feitzinger, E. G. (2013). Factor‐market rivalry and competition for supply chain resources. Journal of Supply Chain Management, 49(1), 29-46.
+https://onlinelibrary.wiley.com/doi/full/10.1111/jscm.12001?casa_token=-uO19Ny-iFsAAAAA%3A5LFaUoTHbfHLMNMJWLHQUUM7Ai5NYtoYXF2Sfy1x7jSvRDhFVYc3S04f53fJM6mSEn-KrZkGkP-HWoKp
+
+13. Farsio, F., Degel, J., & Degner, J. (2000). Economic Value Added (EVA) and stock returns. The Financier, 115-119.https://go.gale.com/ps/i.do?id=GALE%7CA85473261&sid=googleScholar&v=2.1&it=r&linkaccess=abs&issn=10737340&p=AONE&sw=w&userGroupName=anon%7E1defe316
+
+14. Xie, Y. L., & Kalivas, J. H. (1997). Evaluation of principal component selection methods to form a global prediction model by principal component regression. Analytica chimica acta, 348(1-3), 19-27. https://www.sciencedirect.com/science/article/abs/pii/S0003267097000354
+
+
+
+
 

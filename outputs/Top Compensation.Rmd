@@ -1,0 +1,386 @@
+---
+title: Potential influencing factors of the total compensation of top three executives
+  in developing country
+author: "Yijia Lu"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+output:
+  pdf_document: default
+  word_document: default
+thanks: 'Code and data are available at: https://github.com/luyijia1/Potential-influencing-factors-of-the-total-compensation-of-top-three-executives.git.'
+keywords: Total executive compensation; R language; Multicollinearity; Multiple regression
+  analysis
+abstract: After graduation, college students can choose to continue their studies
+  or enter into enter the workforce. Businesses are a major source of employment and
+  are vital to the well-being of individuals. In the context of employment, the wage
+  factor is always discussed. Human capital is also increasingly being referred to
+  as the basic core of group companies. As far as human resource management is concerned,
+  the most important part is compensation management, especially the compensation
+  of senior executives. Therefore, in this paper, the total compensation of the top
+  three executives of a company is chosen as a representative and analyzed in R language.
+  This study will collect data through CSMAR database to find the possible influencing
+  factors.
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(AER)
+library(tidyverse)
+library(wooldridge)
+library(kableExtra)
+library(modelsummary)
+library(knitr)
+```
+
+# INTRODUCTION
+  The stock of a company bought and sold on an investment market is a publicly-traded company. The price of a company's stock reflects people's expectations of the company's future. (Farsio, F., Degel, J., & Degner, J., 2000)  All the financial data will be published, even the annual salary of the top executives. The salary of each individual is a confidential topic. However, the top executives of the listed companies need to be made public. Total wage control is of great significance to the economic benefits of enterprises and the improvement of the wage level of employees. These are related to the vital interests of employees of the whole enterprise. How to allocate the most scarce resources to maximize wages is the question. Moreover, it is worth considering how regulating the total amount of wages can create Pareto improvement, which refers to an economic enhancement to a system without making anyone worse-off. In the company, as for individual salary, the income of senior executives accounts for a higher proportion of the enterprise salary. Companies generally publish the total compensation of their top executives. In order to know how to regulate the total salary reasonably, we must first understand those influencing factors affecting the total salary of senior executives. The factor market theory in microeconomics shows that compensation significantly impacts the labour market. Setting a reasonable amount of executive pay is essential, where executive compensation is the incentive mechanism to work. Generally speaking, performance salary is included in executive compensation, and performance salary is related to the company's various indicators. In order to realize the fine control of total payroll and the diversification of budget methods, we have to achieve economic forecasting, seek more innovative ideas to do an excellent job in the control work and complete the multi-direction budget comparison. The purpose is to obtain more scientific, practical and realistic total payroll budget data. Based on the statistical analysis methods, the research will analyze the influence of company history elements and variable factors on current and future total payroll management and control. According to the known historical data, the law of future short-term data is explored, and the modelling is analyzed. It helps realize the proper research of the statistical analysis approach in total payroll control.
+
+# DATA
+# Status analysis
+  Currently, in most companies, compensation management is not scientific enough. There are several drawbacks in general. First, the salary levels of some branches are not integrated into the real-time management of the corporate headquarters. As a result, public enterprises cannot grasp the overall development. Secondly, the inequality and unreasonableness of salary distribution within the enterprise can seriously affect employees' working mood and reduce their motivation. The most direct incentive is salary. If human resources cannot become the supporting force of the enterprise, it will affect the overall development of the enterprise. Therefore, the comprehensive salary management system comes onto the stage. It can optimize the resource allocation of state-owned enterprises and reasonably adjust the level of income disparity under scientific and economic control. At the same time, salary can ensure the motivation of employees and make them better provide high-quality services to the company. Besides, it is advantageous to improve the overall efficiency of enterprises, strengthen the industry's competitiveness, and maintain the sustainable development level of the industry. At present, China advocates a major domestic cycle. A critical demand factor is consumption, which is facing a coexistence of upgrading and downgrading. If the tremendous domestic cycle is stable, consumption is the crucial factor in expanding consumer spending. Income is the key, and the bulk of income comes from wages. Therefore, wages are also an essential factor affecting the economy. To regulate the economy, we must first regulate total wages. In this paper, 2,951 sample firms are collected. The vertical coordinate is the total compensation of the top three executives in each sample firm. The total compensation of the top three executives in a few companies is very high and there is a big gap with the average level. This also infers some potential income disparities. Nevertheless, the total compensation of most executives is substantial.
+
+```{r, include=FALSE}
+mydata<-read.csv("RAWDATA.csv",header = T)
+```
+
+# Overview of multivariate statistical analysis methods
+With the development of science and the progress of the times, the requirements of business operation cost management and the need for budgeting are increasing. Statistics are gradually combined with the fast and effective application technology of computers based on applied mathematical knowledge. As an essential branch of classical statistics, multivariate statistics follows the principle of inheritance and development. By applying multivariate statistical analysis methods, the economic indicators of enterprises are modelled and predicted scientifically and reasonably. Therefore, using multivariate statistical analysis methods can more effectively solve the budgetary shackles of the current enterprise payroll control. In addition, it can effectively realize the diversified forecasting and application modelling of total wages with mature statistical theory. The following multivariate statistical methods are widely used: multiple regression analysis, factor analysis, principal component analysis and time series analysis of one variable. In this paper, we choose multiple regression analysis and principal component regression to model and analyze the enterprise payroll budget. 
+
+# Sample and Data indicators
+The data comes from the Database of China Stock Market & Accounting Research Database (CSMAR). CSMAR Database is based on the academic research needs of Shenzhen China Stock Data Technology Co., LTD., referring to CRSP, COMPUSTAT, TAQ, THOMSON and other authoritative Database standards. It is combined with China's actual national conditions to develop a research-based economic and financial field database. After 20 years of continuous accumulation and improvement, the CSMAR database has covered factor research, character characteristics, green economy, stocks, companies, overseas, information, funds, bonds, industry, economy, commodity futures and other 18 series, including more than 150 databases, more than 4,000 tables, more than 40,000 fields. In addition, the listed companies of A-share enterprises were selected. After the samples with missing values were removed, the total number of samples was 2,952. 
+
+```{r, include=FALSE}
+df = data.frame(  
+  "Influencing factors" = 
+    c("total amount of labor", 
+      "company_size", 
+      "corporate financial indicator1", 
+      "corporate financial indicator2", 
+      "corporate financial indicator3", 
+      "corporate financial indicator4", 
+      "corporate financial indicator5"),  
+  "Representative indicators" = 
+    c("Number of employees (people)", 
+      "Total assets (RMB)", 
+      "Operating income (RMB)", 
+      "Net profit (RMB)", 
+      "Net cash flows from operating activities (RMB)", 
+      "Return on equity (%)", 
+      "Earnings per share (RMB)"),
+  "Variable symbol" = c("x1", "x2", "x3", "x4", "x5", "x6", "x7")
+)  
+```
+
+```{r, include=TRUE}
+print(df)
+```
+
+Table 1 demonstrates the variable data, including all the influencing factors, representative indicators and their corresponding variable symbols. For example, the number of employees (x1) represents the total amount of which has the unit of people. The total assets (x2) represents the company size which has the unit of RMB. In this case, five corporate financial indicators will be considered: operating income (x3), net profit (x4), net cash flows from operating activities (x5), return on equity (x6) and Earnings per share (x7). The dependent variable is the total compensation of the top three executives, and its variable character is y. In order to reduce heteroscedasticity, the variables of operating income, net profit and net cash flow generated by operating activities are treated with logarithms. 
+
+# Correlation analysis
+Multivariate correlation analysis is the basis of the multiple regression analysis. After analyzing the correlation, the following related indicators and diagrams are concluded. We can find that the correlation between the top three executive pay and the total number of employees, total assets, business income is high. It is also associated with other variables, but their correlations are relatively low. Next, focusing on those explanatory variables, total assets have a high correlation with operating income. This point can be well understood. If a company's total asset income ratio is higher, this means that the total asset operating capacity is higher. There is also a high correlation between net profit and net cash flow from operating activities, accord with the influence correlation between indicators in actual economic operation. Multiple correlation of regression model should be considered in the process of statistical analysis modeling. 
+
+```{r, include = FALSE}
+# import the processed dataset treated with the function of ln()
+ProcessedData <- read.csv("Processed data.csv", header = T)
+# create a new csv file for processed variable table only
+VariableTable <- read.csv("variabletable.csv", header = T)
+```
+
+```{r, Figure2: Correlation Coefficient Diagram, include=TRUE}
+cor(VariableTable)
+plot(VariableTable, main="Figure2: Correlation Coefficient and Diagram")
+```
+
+# MODEL
+# 1. Preliminary modeling
+Firstly, the sample data were preliminarily modeled by multiple linear regression, and the output results of linear regression were obtained by using R software.
+```{r, include=FALSE}
+fm <-lm(y~x1+lnx2+lnx3+ln.x4.+ln.x5.+x6+x7, data = ProcessedData)
+fm
+coeftest(fm, sandwich)
+```
+y = -18980000 + 69.83x1 + 1008000lnx2 - 19420lnx3 + 13550ln.x4. - 4125ln.x5. + 19580x6 + 6141x7
+t value of each coefficient: (-8.0324) (4.88) (6.65) (-0.21) (2.75) (-0.64) (1.5927) (17.8235)
+* The brackets report the corresponding t value of the coefficients. 
+* ln.x4. and ln.x5. represent that we take the absolute value of x4 and x5 data, and then treated with ln()
+
+According to the correlation analysis, the total compensation of the top three executives should be positively correlated with the operating income. However, the coefficient estimated here is negative, so the model should consider whether multicollinearity occurs. By observing t values, it can be found that the t values of explanatory variables such as the number of employees, total assets, net profit and earnings per share are relatively high, which all pass the significance test of t. However, the t values of operating income, net cash flow generated by operating activities and variable coefficient of return on equity are relatively low, which fail to pass the significance test of t.
+
+# 2. Stepwise regression method
+Given the above analysis, in order to achieve a better regression effect, this paper uses stepwise regression of the backward screening method to select variables. Backward screening is a variable screening method that constantly removes explanatory variables from the regression equation. Firstly, all explanatory variables are introduced into the regression equation, and various tests are carried out on the regression equation. Then, the least significant variable (in which the p-value of the t-test is the largest) is removed from one or more variables which are not significant by the significance test of the regression coefficient, and the regression equation is re-established. Various tests are carried out (Doytchinova, I. A., & Flower, D. R.,2007). If the regression coefficient tests of all variables in the new regression equation are significant, the establishment of the regression equation is finished. Otherwise, remove the least significant variables in turn as described above until there are no more variables to remove. According to the above analysis, variable x3 was eliminated in the second part, and the deleted model results were output for observation, and then the variable to be eliminated was considered. The results obtained in R software are as follows.
+
+```{r, include=FALSE}
+models <- list(
+  "model1"=lm(y~x1 + lnx2 + lnx3 + ln.x4. + ln.x5. + x6 + x7, data = ProcessedData),
+  "model2"=lm(y~x1 + lnx2 + ln.x4. + ln.x5. + x6 + x7, data = ProcessedData),
+  "model3"=lm(y~x1 + lnx2 + ln.x4. + ln.x5. + x7, data = ProcessedData),
+  "model4"=lm(y~x1 + lnx2 + ln.x4. + x7, data = ProcessedData))
+  
+modelsummary(models, 
+             vcov = "robust",
+             stars = T,
+             gof_omit = "[^R2|R2 Adj.|Num.Obs]",
+             title = "analysis")
+```
+
+```{r, include=TRUE}
+print(models$model1)
+print(models$model2)
+print(models$model3)
+print(models$model4)
+```
+
+```{r, include=TRUE}
+model4=lm(y~x1 + lnx2 + ln.x4. + x7, data = ProcessedData)
+coeftest(model4)
+```
+The final model obtained by stepwise regression is: 
+y = 18925056.8 + 69.299x1 + 985626.339lnx2 + 12565.458ln.x4. + 6118.235x7
+t test was performed on the final model, and the corresponding T value was obtained as follows:
+
+```{r, Table 2 t values obtained by t test, include=FALSE}
+Table2_t_values = data.frame(
+  "Variable symbol" = c("x1", "lnx2", "lnx4", "x7"),  
+  "t value" = c("10.7923", "18.2888", "3.1597", "3.1751"))  
+```
+
+```{r, include=TRUE}
+Table2_t_values %>%
+  kbl(caption = "Table2: t values obtained by t test") %>%
+  kable_classic(full_width = F, html_font = "Cambria")
+```
+```{r, include=FALSE}
+linearHypothesis(model4, c("x1","lnx2","ln.x4.","x7 "), vcov. = sandwich)
+```
+  It can be found that the t values of the coefficients are all greater than the critical values, and the results show that the regression coefficients of each index of the model have passed the significance test.
+  From the results of stepwise regression, it can be found that the adjusted R square of the finalized model is 0.224, indicating that the number of employees, total assets, net profit and earnings per share variables explain 22.4% variation of the total compensation of the top three executives, which is not very high. But does that explain the lack of strength? For this, the combined significance test of F should be carried out by software, and the F value obtained is 131.98, greater than the critical value, and the p-value is 2.2E-16, so the model passed the joint significance test. 
+
+# 3. Multicollinearity diagnosis
+A Variance Inflation Factor (VIF) can be computed for each predictor in the model. It measures the severity of multicollinearity in regression analysis. A value of 1 means that the predictor is not correlated with other variables. The higher the value, the greater the correlation of the variable with other coexisting variables. According to the theory, when the VIF value is greater than 10, it indicates the multicollinearity of this indicator and other indicators. The larger the value is, the more serious the multicollinearity is. Multicollinearity test was processed on the finally determined model using VIF values, and VIF values of each coefficient were obtained as follows: 
+
+```{r, include= TRUE}
+vif(model4)
+```
+
+```{r, include=FALSE}
+Table3_VIF_values = data.frame(
+  "Variable symbol" = c("x1", "lnx2", "lnx4", "x7"),  
+  "VIF value" = c("1.280381", "1.278602", "1.009022", "1.000987"))  
+```
+
+```{r, include=TRUE}
+Table3_VIF_values %>%
+  kbl(caption = "Table3: VIF values of each variable") %>%
+  kable_classic(full_width = F, html_font = "Cambria")
+```
+It can be found that the VIF value of each coefficient is less than 10 and relatively low, which indicates that the multicollinearity problem encountered by the model has been well solved. 
+
+# 4. Heteroscedasticity test
+Enterprises with above-average total assets are classified as large enterprises and those with below-average total assets are classified as small enterprises. Now let's use R software to see if there are significant differences in executive compensation and other explanatory variables between large and small companies. The R software gets the chart as shown below. 
+
+```{r, include= FALSE}
+summary(VariableTable$lnx2)
+
+VariableTable <- VariableTable %>%
+  mutate(size=ifelse(VariableTable$lnx2>21,"big","small"))
+
+datasummary_balance(~size,
+                    data = VariableTable %>% 
+                      select(y,x1,lnx2,ln.x4.,x7,size),
+                    dinm_statistic = 'p.value',
+                    fmt = 3)
+print(VariableTable)
+```
+The observation results show that the P value of y, x1, lnx2 and x4 variables is less than 0.05, indicating significant differences in executive compensation, number of employees, total assets and net profit of large and small enterprises, while the p-value of x7 variable is greater than 0.05, indicating little difference in earnings per share of large and small enterprises on average. There is reason to suspect heteroscedasticity. To further explore, perform the following tests. Residual graph analysis is recognized as the best method of heteroscedasticity test in statistics. The following is a residual graph analysis of the residual errors obtained by the regression model.
+
+```{r, include=FALSE}
+r<-residuals(model4)
+rbar<-mean(r)
+rvar<-var(r)
+sr<-(r-rbar)/sqrt(rvar)
+```
+
+```{r, include=TRUE}
+plot(sr, main="Figure 5: Residual Diagram")
+```
+It can be seen from the figure that the standardized residual distribution obtained by the regression model is balanced around the level of residual 0, randomly distributed, without heteroscedasticity, which meets the homovariance hypothesis. 
+
+
+# 5. Autocorrelation test
+The common method of autocorrelation diagnosis is graphic examination. The standardized residual value obtained from the regression model equation is the real estimate of the random error term. The scatter diagram of residual value ET and ET-1 is drawn for analysis. Scatter of normalized residual et and ET-1 obtained from regression model equation FIG. 3 shows that normalized residual ET scatters randomly on both sides of the level of ET=0. It shows that the random error has no autocorrelation. The model satisfies the assumption of irrelevance. In addition, DW test with R software found that DW value was 1.97, indicating that there was no sequence correlation. 
+
+```{r}
+library(car)
+durbinWatsonTest(model4)
+```
+
+```{r,include=FALSE}
+r1<-r[1:length(r)-1]
+r2<-r[2:length(r)]
+```
+
+```{r, include=TRUE}
+plot(r1,r2, main="Figure 6: Scatter Diagram of Residual et and et-1")
+```
+
+```{r, include=FALSE}
+x<-VariableTable[,2:8]
+stand_dat<-scale(x)
+modelpca<-princomp(stand_dat,cor=T,scores=T)
+modelpca
+```
+
+```{r, include=TRUE}
+summary(modelpca)
+biplot(modelpca$scores,modelpca$loadings, main="Figure 7: Properties of Principal Component Analysis")
+screeplot(modelpca,type="lines",lwd=2)
+abline(h=1,lty=2)
+```
+
+# 6. Principal component regression analysis
+For variables with correlation, principal component regression can also be performed to eliminate multicollinearity.
+# 7. Standardize the data
+The standardized data were used for principal component extraction.
+# 8. Selection of the number of row principal components
+In the total variance interpretation table of the output of principal component analysis of R software, it can be seen that the eigenvalues of the first three principal components are large, greater than or equal to 1, and the percentage of variance of the first three principal components is also large. Then R software outputs the lithotripsy map of characteristic roots for analysis. As can be seen in the figure, the eigenvalue tends to be stable after the number of principal components reaches 3, so it is finally determined that three principal components are enough.
+
+```{r, include=FALSE}
+reg.data<-data.frame(modelpca$scores[,1:3],y=VariableTable[,1])
+head(reg.data)
+
+pca.reg=lm(y~.,data=reg.data)
+summary(pca.reg)
+
+modelpca$loadings
+
+apply(x,2,mean)
+apply(x,2,sd)
+
+sum(model4$residuals^2)
+sum(pca.reg$residuals^2)
+```
+
+# RESULTS
+The three principal components were represented by f1, f2 and f3, and the data of the original dependent variable Y were used for the least square regression of f1, f2 and f3 to obtain the regression equation of the principal component regression. According to the output results of SPSS, the adjusted coefficient of determination of regression equation R2=0.2071, indicating that the fitting effect was ok. The r-square of this adjustment is less than the r-square of the model finally selected by the stepwise regression method. However, the p-value of this principal component regression is 0.000, indicating that the significance test has been passed. The regression coefficients of the three principal components all reach a significant level, and the regression equation is： y=3140141 + 989054·f1 + 285128·f2 - 159297·f3
+
+The inverse is the regression equation of the original variable
+Principal component expression is:
+f1 = 0.448*x1' + 0.568*lnx2'+0.598*lnx3'+0.222*ln.x4. '+ 0.255*ln.x5. '
+f2 = 0.187*x1' +0.240*lnx2'+0.120*lnx3'+-0.611*ln.x4. '-0.479*lnx5. '+ -0.531*x6'
+f3 = -0.995*x7'
+x1 ', lnx2 ', lnx3 ', ln.x4. ', ln.x5. ', x6 ', x7 'are normalized explanatory variables. Put the above relationship into the regression equation and get:
+y = 3140141 + 496415.1*x1’ + 630213.4*lnx2’ + 625669.7*lnx3’ + 45356.78*ln.x4.’+ 115632.5*ln.x5.’ -151403*x6’ + 158500.5*x7’ 
+
+
+# Model Comparisons
+According to the theory, in the regression model with the response variable y and explanatory variables, when there is strong multicollinearity between explanatory variables, it is generally poor to use the classical regression method to obtain the least squares estimation of regression coefficients. The main idea of principal component regression is to simplify the variables through principal component analysis, transform multiple related original variable indexes into several independent comprehensive indexes, and then take them as the observation values of the principal components, and establish a regression model to simplify the structure of the regression equation. ( Xie, Y. L., & Kalivas, J. H. (1997)
+Principal component regression can solve the problem of collinearity between variables, but it also brings some complexities to the interpretation of regression model. Because the principal component is a linear combination of original variables, not directly observed variables, its meaning is sometimes unclear. After obtaining the regression equation of the primary component, the inverse transformation is often applied to transform it into the regression equation of the original variable. When there is strong multicollinearity between the original variables and its principal component has special meaning, the effect of principal component regression is usually better. And then based on the actual situation that's proven, for this data set. Both stepwise regression method and principal component analysis method can effectively reduce multicollinearity, and the fitting effect of the two models is appropriate. However, the R square of the model determined by stepwise regression method is slightly higher than that of principal component analysis, and the reliability of the model is also shown through testing. Further, the sum of residual squares of the ordinary least square’s regression equation is 2.655542e+16, while the sum of residual squares estimated by the principal component regression is 2.710352e+16, which is much larger. Therefore, the model determined by the stepwise regression method can be used in this paper, namely:
+y= 18925056.8+ 69.299x1+ 985626.339lnx2+ 12565.458ln.x4.+ 6118.235x7
+
+# Quantitative analysis
+The regression model is quantitatively analyzed. From the regression coefficient, it can be seen that for the y variable of the total salary of senior executives, each variable has a specific impact on the total salary. When other variables remain unchanged, on average, the total salary of senior executives will increase by 69.299 yuan for each additional employee. If other conditions remain the same, each 1% increase in total assets will increase the total salary of senior executives by 9,856.26 yuan. If other conditions remain unchanged, an increase of one yuan in earnings per share will lead to an increase of 6118.235 yuan in the total salary of senior executives. If other conditions remain unchanged, each 1% increase in net profit will lead to an increase of 125.65 in the total salary of senior executives. The analysis results show that these factors are significant factors affecting the total salary of senior executives. From the perspective of economic significance, the increase in total assets, earnings per share and net profit should theoretically have a positive impact on the company's wage income level. As the number of employees increases, the company's management becomes more and more critical. Therefore, the senior executives should be paid more in a company with more employees. Therefore, this model conforms to the economic significance and theoretical logic relations. Its fitting effect is suitable for the economic application, which is a good regression applied to economic forecasting in this empirical study.
+
+# Discussion and Suggestion
+The model obtained in this study applies to the prediction of total payroll of enterprises and it can be used to manage and control total wages. It is specifically necessary to effectively forecast and control the available amount of total wages based on the real-time occurrence of profit indicators, which facilitates the rational adjustment of the rhythm of total wage payments. The relationship between the variables identified in this model can be used as a reference to select the variables required for modelling each variable. More regression models can be obtained and applied to a variety of needs by changing the independent variables. Multivariate statistical analysis methods are widely used in modelling economic efficiency indicators of enterprises. Based on the multivariate statistical analysis method, a scientific and reasonable regression model of total wages is established, which can be used in enterprise management. The current and future total wages are controlled and reasonably analyzed and studied by combining the historical elements and variables of the enterprise. This paper makes full use of the enterprise's historical data to explore the laws, conducts regression modelling analysis, and digs out the diversified analysis methods for total wage control. Combining theory and practice, it realizes a scientific and rational study of total wage control based on statistical analysis methods. We should do well on these metrics because we know that the number of employees, net profit margin, total assets and earnings per share are the basic factors that contribute to total wages. What the market should do is to make more labor join the labor market and thus create more wealth. Moreover, the cost of arrangement should be minimized so that the net profit margin indicator rises. Firms are able to accumulate wealth and increase total production. This is an important signal to anticipate the future of the enterprise. The enterprise should do its fundamental responsibility to manage sound output as well as excellent corporate image so that he can make a good prediction of its share price. Thus, the company will be able to earn high earnings per share from good management. Make the cake bigger and bigger and divide it up.
+
+# APPENDIX
+1. @Manual{,
+    title = {R: A Language and Environment for Statistical Computing},
+    author = {{R Core Team}},
+    organization = {R Foundation for Statistical Computing},
+    address = {Vienna, Austria},
+    year = {2022},
+    url = {https://www.R-project.org/},
+  }
+
+2. @Book{,
+    title = {Applied Econometrics with {R}},
+    author = {Christian Kleiber and Achim Zeileis},
+    year = {2008},
+    publisher = {Springer-Verlag},
+    address = {New York},
+    note = {{ISBN} 978-0-387-77316-2},
+    url = {https://CRAN.R-project.org/package=AER},
+  }
+
+3. @Article{,
+    title = {Welcome to the {tidyverse}},
+    author = {Hadley Wickham and Mara Averick and Jennifer Bryan and Winston Chang and Lucy D'Agostino McGowan and Romain François and Garrett Grolemund and Alex Hayes and Lionel Henry and Jim Hester and Max Kuhn and Thomas Lin Pedersen and Evan Miller and Stephan Milton Bache and Kirill Müller and Jeroen Ooms and David Robinson and Dana Paige Seidel and Vitalie Spinu and Kohske Takahashi and Davis Vaughan and Claus Wilke and Kara Woo and Hiroaki Yutani},
+    year = {2019},
+    journal = {Journal of Open Source Software},
+    volume = {4},
+    number = {43},
+    pages = {1686},
+    doi = {10.21105/joss.01686},
+  }
+  
+4. @Manual{,
+    title = {wooldridge: 115 Data Sets from "Introductory Econometrics: A Modern
+Approach, 7e" by Jeffrey M. Wooldridge},
+    author = {Justin M. Shea},
+    year = {2021},
+    note = {R package version 1.4-2},
+    url = {https://justinmshea.github.io/wooldridge/},
+  }
+  
+5. @Manual{,
+    title = {kableExtra: Construct Complex Table with 'kable' and Pipe Syntax},
+    author = {Hao Zhu},
+    year = {2021},
+    note = {http://haozhu233.github.io/kableExtra/,
+https://github.com/haozhu233/kableExtra},
+  }
+  
+6. @Manual{,
+    title = {modelsummary: Summary Tables and Plots for Statistical Models and Data:
+Beautiful, Customizable, and Publication-Ready},
+    author = {Vincent Arel-Bundock},
+    year = {2022},
+    note = {R package version 0.10.0},
+    url = {https://vincentarelbundock.github.io/modelsummary/},
+  }
+
+7. @Manual{,
+    title = {knitr: A General-Purpose Package for Dynamic Report Generation in R},
+    author = {Yihui Xie},
+    year = {2022},
+    note = {R package version 1.38},
+    url = {https://yihui.org/knitr/},
+  }
+  
+8. @Book{,
+    title = {Dynamic Documents with {R} and knitr},
+    author = {Yihui Xie},
+    publisher = {Chapman and Hall/CRC},
+    address = {Boca Raton, Florida},
+    year = {2015},
+    edition = {2nd},
+    note = {ISBN 978-1498716963},
+    url = {https://yihui.org/knitr/},
+  }
+  
+9. @InCollection{,
+    booktitle = {Implementing Reproducible Computational Research},
+    editor = {Victoria Stodden and Friedrich Leisch and Roger D. Peng},
+    title = {knitr: A Comprehensive Tool for Reproducible Research in {R}},
+    author = {Yihui Xie},
+    publisher = {Chapman and Hall/CRC},
+    year = {2014},
+    note = {ISBN 978-1466561595},
+    url = {http://www.crcpress.com/product/isbn/9781466561595},
+  }
+
+10. Farsio, F., Degel, J., & Degner, J. (2000). Economic Value Added (EVA) and stock returns. The Financier, 115-119.https://go.gale.com/ps/i.do?id=GALE%7CA85473261&sid=googleScholar&v=2.1&it=r&linkaccess=abs&issn=10737340&p=AONE&sw=w&userGroupName=anon%7E1defe316
+
+11. Ellram, L. M., Tate, W. L., & Feitzinger, E. G. (2013). Factor‐market rivalry and competition for supply chain resources. Journal of Supply Chain Management, 49(1), 29-46.
+https://onlinelibrary.wiley.com/doi/full/10.1111/jscm.12001?casa_token=-uO19Ny-iFsAAAAA%3A5LFaUoTHbfHLMNMJWLHQUUM7Ai5NYtoYXF2Sfy1x7jSvRDhFVYc3S04f53fJM6mSEn-KrZkGkP-HWoKp
+
+12. Doytchinova, I. A., & Flower, D. R. (2007). Identifying candidate subunit vaccines using an alignment-independent method based on principal amino acid properties. Vaccine, 25(5), 856-866.https://www.jstor.org/stable/24309642
+
+13. Xie, Y. L., & Kalivas, J. H. (1997). Evaluation of principal component selection methods to form a global prediction model by principal component regression. Analytica chimica acta, 348(1-3), 19-27. https://www.sciencedirect.com/science/article/abs/pii/S0003267097000354
+
+14. Bardhan, P. K. (1980). Interlocking factor markets and agrarian development: A review of issues. Oxford Economic Papers, 32(1), 82-98. https://www.jstor.org/stable/2662618?casa_token=vJ8FD4x67fkAAAAA%3Av6q3n34DtU5sdFmvC1QPLdIFrxqOOE4xdql7_5VPpAv8cLO6w_dgx9YKjtISUaOBwz-3SwIrZTed2lGhL6ZsHbfJP_1LwkL-aNj_S2m3GIsZkUnieJ4&seq=1
+ 
+
+
+
